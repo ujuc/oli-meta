@@ -5,10 +5,10 @@
 ## 사용 방법
 
 ```shell script
-poetry run crawler.py <시도 이름>
+poetry run test_crawler.py <시도 이름>
 
 # or
-python crawler.py <시도 이름>
+python test_crawler.py <시도 이름>
 ```
 
 ## 데이터
@@ -60,3 +60,14 @@ poetry install
 ```shell script
 poetry install --no-dev
 ```
+
+## Test
+
+```shell script
+py.test -v --cache-clear
+```
+
+```shell script
+poetry run py.test -v --cache-clear
+```
+* 따로 env 설정할 필요없음.

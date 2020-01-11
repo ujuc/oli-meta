@@ -1,4 +1,4 @@
-import io
+from pathlib import Path
 
 import pytest
 from bs4 import BeautifulSoup
@@ -58,7 +58,8 @@ class TestCase:
 
     def test_given_local_parameter_return_gas_station_data(self):
         # Arrange
-        with open('gas_station_table_data.txt', 'r') as f:
+        test_file = f"{Path(__file__).parent}/gas_station_table_data.txt"
+        with open(test_file, "r") as f:
             table_html = f.read()
 
         soup = BeautifulSoup(table_html, 'html.parser')

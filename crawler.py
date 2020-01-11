@@ -95,11 +95,26 @@ def get_gas_station_html_data(sidogungu: dict, cookie: dict) -> BeautifulSoup:
     return BeautifulSoup(response.text, "html.parser")
 
 
-def get_gas_station_data() -> list:
+def get_gas_station_data(table_data: BeautifulSoup) -> list:
     """
     HTML에서 가져온 주유소 정보를 짜르자.
 
+    :param table_data: 읽어온 전체 HTML
     :return:
     :rtype: list
     """
-    pass
+    raw_gas_station_list = table_data.select('td.rlist > a')
+
+    gas_station_list = []
+    for raw_gas_station_data in raw_gas_station_list:
+        gas_station_data = raw_gas_station_data.attrs['href'][21:].split('\');')[0].split('\',\'')
+
+        gas_station_dict = {
+            'brand': gas_station_data[23],
+            'name': gas_station_data[22],
+            'gasoline': int(gas_station_data[2]),
+            'diesel': int(gas_station_data[3])
+        }
+        gas_station_list.append(gas_station_dict)
+
+    return gas_station_list

@@ -1,3 +1,5 @@
+import io
+
 import pytest
 from bs4 import BeautifulSoup
 
@@ -55,4 +57,18 @@ class TestCase:
         assert "Failed!" in str(excinfo.value)
 
     def test_given_local_parameter_return_gas_station_data(self):
-        pass
+        # Arrange
+        with open('gas_station_table_data.txt', 'r') as f:
+            table_html = f.read()
+
+        soup = BeautifulSoup(table_html, 'html.parser')
+
+        # Act
+        act = crawler.get_gas_station_data(soup)
+
+        # Assert
+        assert isinstance(act, list)
+        assert act[0]["brand"] == "현대오일뱅크"
+        assert act[1]["name"] == "안풍주유소"
+        assert act[2]["gasoline"] == 1648
+        assert act[0]["diesel"] == 1458

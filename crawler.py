@@ -1,7 +1,33 @@
 import httpx
-import typing
 from bs4 import BeautifulSoup
-import re
+
+
+def get_cookie_data() -> dict:
+    """
+    Main 화면으로 접근하여 cookie 값을 가지고 온다.
+
+    :return: cookie 정보를 반환한다.
+    :rtype: dict
+    """
+    headers = {
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) "
+                      "Gecko/20100101 Firefox/72.0",
+        "accept": "text/html,application/xhtml+xml,application/xml;"
+                  "q=0.9,image/webp,*/*;q=0.8",
+        "content-type": "application/x-www-form-urlencoded",
+    }
+
+    main = httpx.get('http://www.opinet.co.kr/user/main/mainView.do',
+                     headers=headers)
+
+    raw_cookie = main.request.headers.get('cookie').split('; ')
+
+    cookie = {}
+    for cookie_data in raw_cookie:
+        k, v = cookie_data.split('=')
+        cookie[k] = v
+
+    return cookie
 
 
 def get_gas_station_html_data(sidogungu: dict, cookie: dict) -> BeautifulSoup:

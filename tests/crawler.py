@@ -5,6 +5,15 @@ import crawler
 
 
 class TestCase:
+    def test_connect_main_get_cookie_data(self):
+        # Act
+        act = crawler.get_cookie_data()
+
+        # Assert
+        assert isinstance(act, dict)
+        assert act.get("JSESSIONID") is not None
+        assert act.get("WMONID") is not None
+
     def test_given_local_parameter_return_html_page(self):
         # Arrange
         sidogungu = {
@@ -12,8 +21,10 @@ class TestCase:
             "sigungu": "종로구",
         }
 
+        cookie = crawler.get_cookie_data()
+
         # Act
-        act = crawler.get_gas_station_html_data(sidogungu)
+        act = crawler.get_gas_station_html_data(sidogungu, cookie)
 
         # Assert
         assert isinstance(act, BeautifulSoup)

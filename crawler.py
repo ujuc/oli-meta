@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 
 
-def get_gas_station_html_data(sidogungu: dict) -> BeautifulSoup:
+def get_gas_station_html_data(sidogungu: dict, cookie: dict) -> BeautifulSoup:
     """
     HTML을 가져오자.
 
@@ -52,17 +52,19 @@ def get_gas_station_html_data(sidogungu: dict) -> BeautifulSoup:
 
     headers = {
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) "
-        "Gecko/20100101 Firefox/72.0",
+                      "Gecko/20100101 Firefox/72.0",
         "accept": "text/html,application/xhtml+xml,application/xml;"
-        "q=0.9,image/webp,*/*;q=0.8",
+                  "q=0.9,image/webp,*/*;q=0.8",
         "content-type": "application/x-www-form-urlencoded",
-        "cookie": "WMONID=sxqrVZOZPPi; JSESSIONID=WiANyxNa0ZwnJTX1abBONM7Plye1aClC9PzsYA78DHYVTbv84a60uHXsGimaRJMl.opwas_1_servlet_engine1; NetFunnel_ID="
     }
 
     response = httpx.post(
         "http://www.opinet.co.kr/searRgSelect.do",
-        params=send_data, headers=headers
+        params=send_data, headers=headers, cookies=cookie
     )
+
+    if 'smartPhones' in response.text:
+        raise Exception("Failed! cookies change!!!")
 
     return BeautifulSoup(response.text, "html.parser")
 

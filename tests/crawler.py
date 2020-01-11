@@ -46,7 +46,7 @@ class TestCase:
         cookie = {
             "WMONID": "sxqrVZOZPPi",
             "JSESSIONID": "WiANyxNa0ZwnJTX1abBONM7Plye1aClC9PzsYA78DHYVTbv84a60uHXsGimaRJMl.opwas_1_servlet_engine1",
-            "NetFunnel_ID": ''
+            "NetFunnel_ID": '',
         }
 
         # Act

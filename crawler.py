@@ -11,14 +11,13 @@ def get_cookie_data() -> dict:
     """
     headers = {
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) "
-                      "Gecko/20100101 Firefox/72.0",
+        "Gecko/20100101 Firefox/72.0",
         "accept": "text/html,application/xhtml+xml,application/xml;"
-                  "q=0.9,image/webp,*/*;q=0.8",
+        "q=0.9,image/webp,*/*;q=0.8",
         "content-type": "application/x-www-form-urlencoded",
     }
 
-    main = httpx.get('http://www.opinet.co.kr/user/main/mainView.do',
-                     headers=headers)
+    main = httpx.get('http://www.opinet.co.kr/user/main/mainView.do', headers=headers)
 
     raw_cookie = main.request.headers.get('cookie').split('; ')
 
@@ -78,15 +77,17 @@ def get_gas_station_html_data(sidogungu: dict, cookie: dict) -> BeautifulSoup:
 
     headers = {
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) "
-                      "Gecko/20100101 Firefox/72.0",
+        "Gecko/20100101 Firefox/72.0",
         "accept": "text/html,application/xhtml+xml,application/xml;"
-                  "q=0.9,image/webp,*/*;q=0.8",
+        "q=0.9,image/webp,*/*;q=0.8",
         "content-type": "application/x-www-form-urlencoded",
     }
 
     response = httpx.post(
         "http://www.opinet.co.kr/searRgSelect.do",
-        params=send_data, headers=headers, cookies=cookie
+        params=send_data,
+        headers=headers,
+        cookies=cookie,
     )
 
     if 'smartPhones' in response.text:
@@ -107,13 +108,14 @@ def get_gas_station_data(table_data: BeautifulSoup) -> list:
 
     gas_station_list = []
     for raw_gas_station_data in raw_gas_station_list:
-        gas_station_data = raw_gas_station_data.attrs['href'][21:].split('\');')[0].split('\',\'')
+        gas_station_data = raw_gas_station_data.attrs['href'][21:]
+        gas_station_data = gas_station_data.split('\');')[0].split('\',\'')
 
         gas_station_dict = {
             'brand': gas_station_data[23],
             'name': gas_station_data[22],
             'gasoline': int(gas_station_data[2]),
-            'diesel': int(gas_station_data[3])
+            'diesel': int(gas_station_data[3]),
         }
         gas_station_list.append(gas_station_dict)
 

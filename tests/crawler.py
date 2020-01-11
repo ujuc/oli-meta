@@ -29,7 +29,10 @@ class TestCase:
         # Assert
         assert isinstance(act, BeautifulSoup)
         table_data = act.select('td.rlist > a')
-        assert table_data[0].text.split()[0] == '㈜지에스이앤알'
+        gas_station_list = [''.join(x.text.split()) for x in table_data]
+        assert gas_station_list is not []
+        assert '자하문주유소' in gas_station_list
+        assert '안풍주유소' in gas_station_list
 
     def test_given_expire_cookie_then_exception(self):
         # Arrange

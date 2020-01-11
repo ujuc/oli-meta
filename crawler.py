@@ -55,17 +55,16 @@ def get_gas_station_html_data(sidogungu: dict) -> BeautifulSoup:
         "Gecko/20100101 Firefox/72.0",
         "accept": "text/html,application/xhtml+xml,application/xml;"
         "q=0.9,image/webp,*/*;q=0.8",
-        "cookie": "WMONID=GpnFVGxUlcW; "
-        "JSESSIONID=lTaXD1u9aMkcmBVtVGCT73TKBjRTD1aJ901q"
-        "YqHwOzCm1r1s4wZareqhUzINTVPU.opwas_2_servlet_engine1",
         "content-type": "application/x-www-form-urlencoded",
+        "cookie": "WMONID=sxqrVZOZPPi; JSESSIONID=WiANyxNa0ZwnJTX1abBONM7Plye1aClC9PzsYA78DHYVTbv84a60uHXsGimaRJMl.opwas_1_servlet_engine1; NetFunnel_ID="
     }
 
     response = httpx.post(
-        "http://www.opinet.co.kr/searRgSelect.do", params=send_data, headers=headers
+        "http://www.opinet.co.kr/searRgSelect.do",
+        params=send_data, headers=headers
     )
 
-    return BeautifulSoup(response.text)
+    return BeautifulSoup(response.text, "html.parser")
 
 
 def get_gas_station_data() -> list:

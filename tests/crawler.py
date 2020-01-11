@@ -1,5 +1,5 @@
 import crawler
-import bs4
+from bs4 import BeautifulSoup
 
 
 class TestCase:
@@ -14,8 +14,9 @@ class TestCase:
         act = crawler.get_gas_station_html_data(sidogungu)
 
         # Assert
-        assert isinstance(act, bs4.BeautifulSoup)
-        assert act.html
+        assert isinstance(act, BeautifulSoup)
+        table_data = act.select('td.rlist > a')
+        assert table_data[0].text.split()[0] == '㈜지에스이앤알'
 
 
 def test_given_local_parameter_return_gas_station_data(self):
